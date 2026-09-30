@@ -1,6 +1,10 @@
 # 06 — Negation as failure
 
-Prolog's `\+/1` succeeds when its goal cannot be proven.
+## Goals
+
+Understand `\+/1`, why it is called negation as failure, and why it is not classical logical negation.
+
+## When a goal cannot be proven
 
 ```prolog
 bird(robin).
@@ -10,10 +14,47 @@ bird(sparrow).
 true.
 ```
 
-This is *negation as failure*, not a proof of classical logical negation.
+Prolog tried to prove `bird(cat)` and found no proof.
 
-Be especially careful with free variables. `\+ bird(X)` does not enumerate everything that is not a bird. A useful rule is to apply negation after the relevant variables have been sufficiently instantiated.
+## The closed-world assumption
+
+In ordinary Prolog programs, absence of proof is often enough for `\+ Goal` to succeed. This does not mean the opposite proposition has been proven in classical logic.
+
+## Variables: an important trap
+
+```prolog
+?- \+ bird(X).
+false.
+```
+
+This does not enumerate everything that is not a bird. Prolog finds a value making `bird(X)` true, so the negation fails.
+
+A useful rule is to apply negation only after the relevant variables are sufficiently instantiated.
+
+## Filtering
+
+```prolog
+person(ada).
+person(grace).
+person(alan).
+programmer(ada).
+programmer(grace).
+
+non_programmer(X) :-
+    person(X),
+    \+ programmer(X).
+```
+
+Order matters: generate a known person first, then test whether programmer status cannot be proven.
 
 ## Exercises
 
-Experiment with negation over bound and unbound variables. Build a small filtering relation and explain one situation where missing knowledge should not be interpreted as false.
+1. Compare `\+ bird(cat)` and `\+ bird(X)`.
+2. Implement `non_programmer/1`.
+3. Reverse its goals and explain the difference.
+4. Build allowed/blocked data and filter it.
+5. Give an example where unknown information must not be treated as false.
+
+## Think
+
+The distinction between “I can prove this is false” and “I cannot prove this is true” is fundamental in knowledge-based systems.
