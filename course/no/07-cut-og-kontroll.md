@@ -27,10 +27,22 @@ Et *green cut* fjerner bare unødvendig søk. Det endrer ikke de tilsiktede logi
 minimum(A, B, A) :-
     A =< B,
     !.
-minimum(_, B, B).
+minimum(A, B, B) :-
+    B < A.
 ```
 
 ## Red cut
+
+Sammenlign med denne fristende varianten:
+
+```prolog
+minimum_red(A, B, A) :-
+    A =< B,
+    !.
+minimum_red(_, B, B).
+```
+
+Her er den andre klausulen for vid. Spørringen `minimum_red(1, 2, 2)` lykkes selv om 2 ikke er minimum. Cutet er derfor en del av predikatets betydning, ikke bare en optimalisering.
 
 Et *red cut* er nødvendig for programmets tilsiktede svar eller skjuler informasjon som ellers ville blitt uttrykt i reglene. Slike cuts gjør programmet vanskeligere å lese deklarativt og bør behandles med varsomhet.
 
