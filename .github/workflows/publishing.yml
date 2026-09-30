@@ -13,6 +13,7 @@ on:
       - '.github/workflows/publishing.yml'
 
 jobs:
+  # Release qualification uses the qualified stable Ploos Publishing v1 contract.
   publishing:
     uses: Ploos-AS/publishing/.github/workflows/reusable-book-validate.yml@v1
     with:
