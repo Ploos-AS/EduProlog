@@ -1,0 +1,10 @@
+fact(robot_a,battery_low).
+fact(robot_a,at_dock).
+fact(robot_b,obstacle_reported).
+fact(robot_b,sensor_uncertain).
+recommend(recharge,R,because(battery_low)):-fact(R,battery_low).
+recommend(dock_and_recharge,R,because(battery_low,not_at_dock)):-
+ fact(R,battery_low),\+fact(R,at_dock).
+recommend(check_sensor,R,because(obstacle_reported,sensor_uncertain)):-
+ fact(R,obstacle_reported),fact(R,sensor_uncertain).
+recommend(inspect_path,R,because(obstacle_reported)):-fact(R,obstacle_reported).
