@@ -11,7 +11,7 @@ test(tree_missing, [fail]) :-
 
 test(tree_size) :-
     tree(T),
-    tree_size(T, 5).
+    tree_size(T, 6).
 
 test(cycle_safe_path) :-
     path(a, d, P),
