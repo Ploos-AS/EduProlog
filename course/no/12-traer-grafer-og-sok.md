@@ -14,6 +14,16 @@ contains(X, node(_, L, _)) :- contains(X, L).
 contains(X, node(_, _, R)) :- contains(X, R).
 ```
 
+Tell noder med samme rekursive struktur:
+
+```prolog
+tree_size(empty, 0).
+tree_size(node(_, L, R), N) :-
+    tree_size(L, LN),
+    tree_size(R, RN),
+    N is 1 + LN + RN.
+```
+
 ## Grafer og sykler
 
 En naiv rekursiv `reachable/2` kan gå i loop dersom grafen inneholder en syklus. Derfor husker vi besøkte noder.
@@ -24,7 +34,15 @@ path(Start, Goal, Path) :-
     reverse(Rev, Path).
 ```
 
-Hjelpepredikatet utvider bare til noder som ikke allerede er besøkt.
+Hjelpepredikatet utvider bare til noder som ikke allerede er besøkt:
+
+```prolog
+path_(Goal, Goal, Visited, Visited).
+path_(Current, Goal, Visited, Path) :-
+    edge(Current, Next),
+    \+ memberchk(Next, Visited),
+    path_(Next, Goal, [Next|Visited], Path).
+```
 
 ## Dybde-først-søk
 
