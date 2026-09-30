@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+echo "contract=PLOOS-STUDENT-OCI-1"
+echo "course=EduProlog"
+echo "workspace=/course"
+swipl --version
