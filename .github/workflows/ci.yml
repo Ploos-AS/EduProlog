@@ -19,6 +19,13 @@ jobs:
             echo "Checking $f"
             swipl -q -t halt -s "$f"
           done
+      - name: Run course tests
+        working-directory: tests
+        run: |
+          for f in test_*.pl; do
+            echo "Testing $f"
+            swipl -q -s "$f" -g "run_tests,halt"
+          done
       - name: Smoke-test relations
         run: |
           swipl -q -s examples/family.pl -g "grandparent(anna,liv),sibling(ola,kari),halt"
