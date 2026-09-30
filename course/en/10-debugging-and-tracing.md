@@ -21,17 +21,24 @@ Enable tracing with `trace.` and disable it with `notrace.`.
 
 ## A typical problem
 
-```prolog
-last_bad(X, [_|Xs]) :- last_bad(X, Xs).
-last_bad(X, [X]).
-```
-
-It may work, but the clause order creates unnecessary search. A clearer version places the base case first:
+A common mistake is to use `is/2` before the variable on its right-hand side is bound:
 
 ```prolog
-last_good(X, [X]).
-last_good(X, [_|Xs]) :- last_good(X, Xs).
+next_bad(N, Next) :-
+    Next is N + 1.
 ```
+
+The query `next_bad(N, 5)` raises an instantiation error: arithmetic through `is/2` is not a relation that can simply run backwards. The tracer shows the failure at the call to `is/2` with unbound `N`.
+
+When the direction is intentional, make the contract explicit:
+
+```prolog
+next_from(N, Next) :-
+    number(N),
+    Next is N + 1.
+```
+
+If the problem really needs relational integer arithmetic, CLP(FD) is the better tool; module 15 introduces it.
 
 ## Non-termination
 
