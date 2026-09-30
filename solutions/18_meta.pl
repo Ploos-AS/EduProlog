@@ -1,0 +1,9 @@
+rule(parent(anna,ola),true).
+rule(parent(ola,liv),true).
+rule(grandparent(X,Z),(parent(X,Y),parent(Y,Z))).
+solve(true).
+solve((A,B)):-solve(A),solve(B).
+solve(G):-rule(G,B),solve(B).
+prove(true,true).
+prove((A,B),and(PA,PB)):-prove(A,PA),prove(B,PB).
+prove(G,because(G,P)):-rule(G,B),prove(B,P).
