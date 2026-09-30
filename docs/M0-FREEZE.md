@@ -33,13 +33,19 @@ EduProlog enters M0 freeze when all applicable PLOOS-PROJECT-1 gates below are s
 - [x] ISBN values remain `PENDING` until assigned centrally.
 - [x] Consumer workflow targets the stable contract:
       `Ploos-AS/publishing/.github/workflows/reusable-book-validate.yml@v1`.
-- [ ] Publishing qualification is green.
+- [x] Publishing qualification is green.
 
 ### Publishing qualification status
 
 Ploos Publishing `v1` and `v1.0.0` are published from qualified commit `01e9a9946b765994829cdbf2cc1c0e46c7764487`.
 
-EduProlog now resolves the stable reusable workflow contract. M0 remains blocked only until the consumer publishing qualification passes on the current EduProlog revision.
+EduProlog resolves the stable reusable workflow contract. On commit `f71df60be200c06d17c317a6d2125d6be4a3191b`, all required gates passed:
+
+- `publishing / validate`: PASS
+- `prolog`: PASS
+- `student-container`: PASS
+
+M0 is therefore **FROZEN**. Further changes before the M0 release are limited to release blockers, correctness fixes and documentation/release metadata fixes.
 
 ## Freeze rule
 
