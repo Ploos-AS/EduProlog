@@ -53,6 +53,6 @@ Course material is designed for the Ploos single-source publishing pipeline, wit
 
 ## License
 
-Course text, exercises, and documentation are licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)** unless otherwise noted.
+Course and publication material is licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**. Executable source code and software-oriented infrastructure is licensed under the **MIT License** unless otherwise noted. See `LICENSES.md` for applicability.
 
 Copyright © Ploos AS.
