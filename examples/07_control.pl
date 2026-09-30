@@ -3,7 +3,15 @@
 minimum(A, B, A) :-
     A =< B,
     !.
-minimum(_, B, B).
+minimum(A, B, B) :-
+    B < A.
+
+% A deliberately red-cut variant for teaching: the cut is required for its
+% behaviour, and querying a pre-bound wrong result exposes the problem.
+minimum_red(A, B, A) :-
+    A =< B,
+    !.
+minimum_red(_, B, B).
 
 absolute(X, A) :-
     ( X >= 0 ->
