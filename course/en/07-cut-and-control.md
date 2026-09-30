@@ -22,10 +22,22 @@ A green cut removes unnecessary search without changing the intended logical ans
 minimum(A, B, A) :-
     A =< B,
     !.
-minimum(_, B, B).
+minimum(A, B, B) :-
+    B < A.
 ```
 
 ## Red cut
+
+Compare the green version with this tempting variant:
+
+```prolog
+minimum_red(A, B, A) :-
+    A =< B,
+    !.
+minimum_red(_, B, B).
+```
+
+The second clause is too broad: `minimum_red(1, 2, 2)` succeeds even though 2 is not the minimum. The cut is therefore part of the predicate's meaning rather than merely an optimization.
 
 A red cut changes the intended answers or hides information that would otherwise need to be expressed in the rules. It makes the declarative meaning harder to see and deserves extra caution.
 
