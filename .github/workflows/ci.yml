@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  prolog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog-nox
+      - name: Load examples
+        run: |
+          for f in examples/*.pl; do
+            echo "Checking $f"
+            swipl -q -t halt -s "$f"
+          done
+      - name: Smoke-test relations
+        run: |
+          swipl -q -s examples/family.pl -g "grandparent(anna,liv),sibling(ola,kari),halt"
+
+  student-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build student OCI
+        run: docker build -t eduprolog-student student/
+      - name: Smoke-test SWI-Prolog
+        run: docker run --rm eduprolog-student swipl --version
