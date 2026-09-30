@@ -2,20 +2,24 @@
 
 ## Goals
 
-After this module you should be able to build relations from other relations, explain base and recursive cases, and use recursion for relationships of arbitrary depth.
+After this module you should be able to write multi-argument relations, derive relations from facts and rules, explain base and recursive cases, express transitive relationships, and recognize recursion that may not terminate.
 
 ## Relations
 
 ```prolog
 parent(anna, ola).
 parent(ola, liv).
+```
 
+A new relation can be built from existing ones:
+
+```prolog
 grandparent(X, Z) :-
     parent(X, Y),
     parent(Y, Z).
 ```
 
-Variables connect goals. Prolog searches for bindings that satisfy the complete rule.
+For `grandparent(anna, liv)`, Prolog searches for a value of `Y` satisfying both goals.
 
 ## Recursion
 
@@ -30,7 +34,9 @@ descendant(Descendant, Ancestor) :-
 
 The first clause is the base case. The second reduces the problem by one generation before recurring.
 
-The same pattern can express reachability in a graph:
+## Graphs
+
+The same pattern works outside family trees:
 
 ```prolog
 reachable(X, Y) :- edge(X, Y).
@@ -39,14 +45,25 @@ reachable(X, Y) :-
     reachable(Z, Y).
 ```
 
+The path length does not have to be known in advance.
+
+## Order matters
+
+Rules that look logically similar can behave differently operationally. Recursive calls must make progress toward a simpler case; cyclic graphs need additional care, which later modules cover in detail.
+
 ## Exercises
 
-Extend the family tree, implement `sibling/2`, create a graph with at least six nodes, query all reachable nodes, and trace one recursive query by hand.
+1. Extend the family tree.
+2. Implement `sibling/2`.
+3. Ask for every descendant of one person.
+4. Create a graph with at least six nodes.
+5. Find every node reachable from a chosen start.
+6. Draw the recursive calls for one query by hand.
 
 ## Challenge
 
-Implement `ancestor/2` and experiment with querying the same relation in different directions.
+Implement `ancestor/2` as the opposite view of `descendant/2` and query it in several directions.
 
 ## Think
 
-A Prolog predicate describes a relation rather than merely a function from inputs to outputs. Which predicates here remain useful when queried “backwards”?
+Prolog predicates are relations, not merely functions with inputs and outputs. Which predicates in this module remain useful when queried backwards?
