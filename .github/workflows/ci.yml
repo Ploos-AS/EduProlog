@@ -21,9 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build student OCI
-        run: docker build -t eduprolog-student student/
-      - name: Smoke-test SWI-Prolog
-        run: docker run --rm eduprolog-student swipl --version
-      - name: Verify course inside student OCI
-        run: |
-          docker run --rm -v "$PWD:/work" -w /work eduprolog-student             sh scripts/verify-course.sh
+        run: docker build -t eduprolog-student -f student/Dockerfile .
+      - name: Check environment identity
+        run: docker run --rm -v "$PWD:/course" eduprolog-student student-env-info
+      - name: Run PLOOS-STUDENT-OCI-1 check
+        run: docker run --rm -v "$PWD:/course" eduprolog-student
