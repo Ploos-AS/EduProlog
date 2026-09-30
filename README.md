@@ -34,15 +34,18 @@ The initial implementation targets **SWI-Prolog**, while the course aims to teac
 A self-contained student container is provided so the course does not depend on private Ploos infrastructure.
 
 ```sh
-docker build -t eduprolog-student student/
-docker run --rm -it -v "$PWD:/work" -w /work eduprolog-student
+docker build -t eduprolog-student -f student/Dockerfile .
+docker run --rm -it -v "$PWD:/course" eduprolog-student swipl
 ```
 
-Inside the container:
+The image follows `PLOOS-STUDENT-OCI-1`: `/course` is the mounted course workspace. It also provides:
 
 ```sh
-swipl
+student-env-info
+student-check
 ```
+
+Running the image without another command executes `student-check`.
 
 ## Publishing
 
