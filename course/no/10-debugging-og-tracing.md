@@ -27,19 +27,24 @@ Slå av med `notrace.`.
 
 ## Et typisk problem
 
-```prolog
-last_bad(X, [_|Xs]) :-
-    last_bad(X, Xs).
-last_bad(X, [X]).
-```
-
-Denne kan fungere, men klausulrekkefølgen skaper unødvendig søk. En tydeligere variant setter base case først:
+En vanlig feil er å bruke `is/2` før variabelen på høyre side er bundet:
 
 ```prolog
-last_good(X, [X]).
-last_good(X, [_|Xs]) :-
-    last_good(X, Xs).
+next_bad(N, Next) :-
+    Next is N + 1.
 ```
+
+Spørringen `next_bad(N, 5)` gir en instansieringsfeil: aritmetikk med `is/2` er ikke en relasjon som kan kjøres baklengs. Traceren viser at feilen oppstår idet `is/2` kalles med ubundet `N`.
+
+Når retningen er kjent, gjør kontrakten eksplisitt:
+
+```prolog
+next_from(N, Next) :-
+    number(N),
+    Next is N + 1.
+```
+
+Hvis problemet egentlig krever relasjonell heltallsaritmetikk, er CLP(FD) et bedre verktøy; det kommer i modul 15.
 
 ## Ikke-terminering
 
