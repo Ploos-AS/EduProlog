@@ -1,13 +1,55 @@
 # 19 — Performance, indexing and termination
 
-Correctness comes first, but Prolog's search strategy means goal order, termination and determinism can strongly affect performance.
+## Goals
 
-Recursive calls must make progress, and cyclic data often requires explicit visited-state handling. Selective inexpensive goals can reduce a search space when placed appropriately.
+Distinguish correctness from performance, recognize common causes of non-termination, and write predicates that give Prolog good opportunities for efficient search.
 
-Prolog implementations may index clauses using instantiated arguments. Exact indexing behavior is implementation-dependent, so design clear predicate interfaces first and measure the real call patterns before optimizing.
+## Does the search terminate?
 
-Unnecessary choice points can also cost work. Use tracing, statistics and profiling to find actual problems rather than inserting cuts speculatively.
+A recursive definition needs more than a base case: the search strategy must be able to reach it.
+
+```prolog
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :-
+    parent(X, Z),
+    ancestor(Z, Y).
+```
+
+This progresses on finite acyclic parent data. General graphs require explicit cycle handling.
+
+## Goal order
+
+Early goals can reduce the search space:
+
+```prolog
+result(Person) :-
+    person(Person),
+    active(Person),
+    expensive_test(Person).
+```
+
+A cheap selective goal may matter greatly, but do not change logical meaning merely for speed.
+
+## Indexing
+
+Prolog systems may index clauses using instantiated arguments. Exact strategies are implementation-dependent. Design a clear interface first, then measure real call patterns.
+
+## Determinism
+
+Unnecessary choice points can waste work. Use tracing and measurement before considering cut.
+
+## Measure, do not guess
+
+SWI-Prolog provides facilities such as `statistics/2` and profiling tools. Optimization without evidence can reduce declarative clarity without solving a real problem.
 
 ## Exercises
 
-Diagnose non-termination, make graph traversal cycle-safe, compare goal orderings, locate an unnecessary choice point, and measure a justified optimization.
+1. Diagnose a recursive predicate that does not terminate.
+2. Make graph traversal cycle-safe.
+3. Compare two goal orders on a dataset.
+4. Find an unnecessary choice point.
+5. Measure a call before and after a justified change.
+
+## Think
+
+Which performance improvements preserve semantics, and which change the answers or supported calling modes?
