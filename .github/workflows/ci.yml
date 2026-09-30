@@ -13,22 +13,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y swi-prolog-nox
-      - name: Load examples
-        run: |
-          for f in examples/*.pl; do
-            echo "Checking $f"
-            swipl -q -t halt -s "$f"
-          done
-      - name: Run course tests
-        working-directory: tests
-        run: |
-          for f in test_*.pl; do
-            echo "Testing $f"
-            swipl -q -s "$f" -g "run_tests,halt"
-          done
-      - name: Smoke-test relations
-        run: |
-          swipl -q -s examples/family.pl -g "grandparent(anna,liv),sibling(ola,kari),halt"
+      - name: Verify complete course
+        run: sh scripts/verify-course.sh
 
   student-container:
     runs-on: ubuntu-latest
@@ -38,3 +24,6 @@ jobs:
         run: docker build -t eduprolog-student student/
       - name: Smoke-test SWI-Prolog
         run: docker run --rm eduprolog-student swipl --version
+      - name: Verify course inside student OCI
+        run: |
+          docker run --rm -v "$PWD:/work" -w /work eduprolog-student             sh scripts/verify-course.sh
