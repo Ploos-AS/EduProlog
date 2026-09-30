@@ -1,0 +1,13 @@
+sentence-->noun_phrase,verb_phrase.
+noun_phrase-->determiner,noun.
+noun_phrase-->determiner,adjective,noun.
+verb_phrase-->verb,noun_phrase.
+determiner-->[the].
+adjective-->[small];[quick].
+noun-->[cat];[mouse];[robot].
+verb-->[chases];[sees].
+command(move(D))-->[move],direction(D).
+direction(north)-->[north].
+direction(south)-->[south].
+direction(east)-->[east].
+direction(west)-->[west].
