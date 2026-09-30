@@ -24,7 +24,15 @@ path(Start, Goal, Path) :-
     reverse(Rev, Path).
 ```
 
-The helper only expands nodes not already visited.
+The helper only expands nodes not already visited:
+
+```prolog
+path_(Goal, Goal, Visited, Visited).
+path_(Current, Goal, Visited, Path) :-
+    edge(Current, Next),
+    \+ memberchk(Next, Visited),
+    path_(Next, Goal, [Next|Visited], Path).
+```
 
 ## Depth-first search
 
