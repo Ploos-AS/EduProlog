@@ -35,11 +35,11 @@ EduProlog enters M0 freeze when all applicable PLOOS-PROJECT-1 gates below are s
       `Ploos-AS/publishing/.github/workflows/reusable-book-validate.yml@v1`.
 - [ ] Publishing qualification is green.
 
-### Current publishing blocker
+### Publishing qualification status
 
-As of 2026-09-30, the canonical Ploos Publishing documentation requires consumers to use the stable `@v1` major alias for release qualification, but the `Ploos-AS/publishing` repository does not yet expose a `refs/tags/v1` ref. The EduProlog publishing workflow therefore cannot start the reusable job.
+Ploos Publishing `v1` and `v1.0.0` are published from qualified commit `01e9a9946b765994829cdbf2cc1c0e46c7764487`.
 
-EduProlog deliberately does **not** fall back to `@main` for release qualification. Freeze remains blocked until Publishing publishes its qualified `v1` alias and this workflow passes.
+EduProlog now resolves the stable reusable workflow contract. M0 remains blocked only until the consumer publishing qualification passes on the current EduProlog revision.
 
 ## Freeze rule
 
