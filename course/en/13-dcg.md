@@ -1,21 +1,59 @@
 # 13 — Definite Clause Grammars (DCG)
 
-DCG notation provides a compact way to describe sequences.
+## Goals
+
+Read and write a simple DCG, use `phrase/2`, and understand the connection between grammar rules and Prolog predicates.
+
+## A small grammar
 
 ```prolog
 sentence --> noun_phrase, verb_phrase.
 noun_phrase --> determiner, noun.
 verb_phrase --> verb, noun_phrase.
+
+determiner --> [the].
+noun --> [cat].
+noun --> [mouse].
+verb --> [chases].
 ```
 
-Use `phrase/2` to recognize a token list. Many grammars can also generate token lists.
+```prolog
+?- phrase(sentence, [the,cat,chases,the,mouse]).
+true.
+```
 
-DCG rules are translated into ordinary Prolog predicates carrying additional list-state arguments, closely related to difference lists. Ordinary Prolog goals can be embedded with braces.
+## A DCG is Prolog
+
+DCG notation is translated into ordinary predicates with extra arguments representing the remaining token list, closely related to difference lists.
+
+Ordinary Prolog goals can be embedded with braces:
+
+```prolog
+number(N) --> [N], { number(N) }.
+```
+
+## Generation
+
+Many grammars work in both directions:
+
+```prolog
+?- phrase(sentence, Words).
+```
+
+Prolog can then generate accepted sentences.
 
 ## Exercises
 
-Extend a grammar, add adjectives, build a small command grammar, generate sentences, and inspect the translated form of a DCG rule.
+1. Add nouns and verbs.
+2. Add adjectives.
+3. Build a grammar for a simple command.
+4. Generate sentences with `phrase/2`.
+5. Inspect DCG expansion with `listing/1` or `expand_term/2`.
 
 ## Challenge
 
-Make a grammar produce a structured result such as `move(Direction)` rather than merely succeeding.
+Produce a structure such as `move(Direction)` instead of merely accepting words.
+
+## Think
+
+Why is a relational grammar useful when both parsing and generation matter?
